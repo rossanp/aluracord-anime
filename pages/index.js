@@ -1,5 +1,6 @@
 import appConfig from '../config.json'
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import React from 'react';
 
 function GlobalStyle() {
     return (
@@ -31,37 +32,28 @@ function GlobalStyle() {
 }
 
 function Title(props) {
+
+    /* Definindo uma tag h1 caso não tenha passado nada na props.tag, caso tenha, seta o valor de props */
     const Tag = props.tag || 'h1';
     return (
         <>
             <Tag>{props.children}</Tag>
 
             <style jsx>{`
+                /* Estiliza a tag passada dentro de props */
                 ${Tag} {
                     color: ${appConfig.theme.colors.neutrals['900']};
                     font-size: 24px;
                     font-weight: 600;
                 }
             `}</style>
-
         </>
     )
 }
 
-/* function HomePage() {
-    return (
-        <div>
-            <GlobalStyle />
-            <Title tag="h2">Boas vindas de volta!</Title>
-            <h2>Discord - Alura Matrix</h2>
-        </div>
-    )
-}
-
-export default HomePage */
-
 export default function PaginaInicial() {
-    const username = 'rossanp';
+    /* const username = 'rossanp'; */
+    const [username, setUsername] = React.useState('')
 
     return (
         <>
@@ -104,6 +96,15 @@ export default function PaginaInicial() {
                         </Text>
 
                         <TextField
+                            value={username}
+                            onChange={function (event) {
+                                /* Escutando o valor digitado */
+                                console.log(`${username} digitou`, event.target.value)
+                                /* buscando o novo valor digitado */
+                                const valor = event.target.value
+                                /* setando o novo valor no input */
+                                setUsername(valor)
+                            }}
                             fullWidth
                             textFieldColors={{
                                 neutral: {
@@ -145,12 +146,21 @@ export default function PaginaInicial() {
                             minHeight: '240px',
                         }}
                     >
+
                         <Image
                             styleSheet={{
                                 borderRadius: '50%',
                                 marginBottom: '16px',
                             }}
-                            src={`https://github.com/${username}.png`}
+
+                            /* Definindo somente para aparecer a imagem quando o usuário tiver 2+ caracteres */
+                            src={`${username.length <= 2
+                                ? 'https://cdn-icons-png.flaticon.com/512/74/74472.png'
+                                : `https://github.com/${username}.png`
+                                }`
+                            }
+
+                        /* src={`https://github.com/${username}.png`} */
                         />
                         <Text
                             variant="body4"
@@ -161,7 +171,7 @@ export default function PaginaInicial() {
                                 borderRadius: '1000px'
                             }}
                         >
-                            {username}
+                            { username.length <= 2 ? "Usuário não encontrado!" : `${username}` }
                         </Text>
                     </Box>
                     {/* Photo Area */}
