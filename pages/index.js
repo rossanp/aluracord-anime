@@ -79,7 +79,7 @@ export default function PaginaInicial() {
                             onChange={function (event) {
                                 /* Escutando o valor digitado */
                                 console.log(`${username} digitou`, event.target.value)
-                                /* buscando o novo valor digitado */
+                                /* buscando o novo valor digitado / onde está o valor? */
                                 const valor = event.target.value
                                 /* setando o novo valor no input */
                                 setUsername(valor)
